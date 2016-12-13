@@ -1,0 +1,328 @@
+svg {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 12px;
+}
+
+svg body {
+	margin: 0;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.nb-graph,
+.nb-grid {
+	shape-rendering: crispEdges;
+}
+
+
+/* - - - NB Graph Global Styles - - - */
+
+
+.axis text {
+	fill: #666666;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #08c;
+}
+
+.line,
+.nb-graph path {
+	fill: none;
+}
+
+.nb-graph circle,
+.nb-graph path {
+	shape-rendering: auto;
+}
+
+.nb-graph .visual-line {
+    stroke: #08c;
+}
+
+.nb-graph .visual-line.secondary {
+    stroke: #dddddd;
+}
+
+.nb-graph .grid-line g.tick line {
+    stroke: #eeeeee;
+}
+
+.nb-graph .x.axis path,
+.nb-graph .y.axis path {
+    display: none;
+}
+
+.nb-graph .x.axis text,
+.nb-graph .axis-label {
+    text-anchor: end;
+}
+
+.nb-graph .axis-label.right-axis,
+.nb-graph .axis-label.top-label {
+    text-anchor: start;
+}
+
+.nb-graph .circle {
+    fill: #ffffff;
+    cursor: pointer;
+}
+
+.nb-graph .bar,
+.nb-graph .area {
+    fill: #dddddd;
+}
+
+.nb-graph .bar,
+.nb-graph .line,
+.nb-graph .circle {
+    stroke: #999999;
+}
+
+.nb-graph .axis .axis-label {
+    fill: #999999;
+}
+
+.brush .extent {
+	stroke: #08c;
+    fill: #0096FF;
+    fill-opacity: .2;
+    shape-rendering: crispEdges;
+}
+
+.band-rect:hover {
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+
+/* - - - scheduled test graphs - - - */
+
+
+.sched-graph .grid-line g.tick line {
+    stroke: #eeeeee;
+}
+
+
+/* bandwidth and download colors */
+.sched-graph .bw-bar,
+.sched-graph .bw-area,
+.sched-graph .response-time-bar,
+.sched-graph .response-time-area,
+.rect-bar.response-time {
+    fill: #6DFF8D;
+}
+
+.sched-graph .bw-bar,
+.sched-graph .bw-line,
+.sched-graph .bw-circle,
+.sched-graph .response-time-bar,
+.sched-graph .response-time-line,
+.sched-graph .response-time-circle,
+.rect-bar.response-time{
+    stroke: #0BB230;
+}
+
+.sched-graph .bw-axis .axis-label,
+.sched-graph .downl-axis .axis-label,
+.sched-graph .response-time-axis .axis-label {
+    fill: #0BB230;
+}
+
+/*response time colors*/
+.sched-graph .response-time-bar,
+.sched-graph .response-time-area,
+.rect-bar.response-time {
+    fill: #7FB2F0;
+}
+
+.sched-graph .response-time-bar,
+.sched-graph .response-time-line,
+.sched-graph .response-time-circle,
+.rect-bar.response-time {
+    stroke: #4E7AC7;
+}
+
+.sched-graph .response-time-axis .axis-label {
+    fill: #4E7AC7;
+}
+
+/* download colors */
+.sched-graph .downl-bar,
+.sched-graph .downl-area,
+.rect-bar.download {
+    fill: #6DFF8D;
+}
+
+.sched-graph .downl-bar,
+.sched-graph .downl-line,
+.sched-graph .downl-circle,
+.rect-bar.download {
+    stroke: #0BB230;
+}
+
+.sched-graph .downl-axis .axis-label {
+    fill: #0BB230;
+}
+
+
+/* upload colors */
+.sched-graph .upl-bar,
+.sched-graph .upl-area,
+.rect-bar.upload {
+    fill: #FFA081;
+}
+
+.sched-graph .upl-bar,
+.sched-graph .upl-line,
+.sched-graph .upl-circle,
+.rect-bar.upload {
+    stroke: #FC5B3F;
+}
+
+.sched-graph .upl-axis .axis-label {
+    fill: #FC5B3F;
+}
+
+
+/* packet loss colors */
+.sched-graph .pl-bar,
+.sched-graph .pl-area {
+    fill: #FFE2DD;
+}
+
+.sched-graph .pl-bar,
+.sched-graph .pl-line,
+.sched-graph .pl-circle {
+    stroke: #EB2D08;
+}
+
+.sched-graph .pl-axis .axis-label {
+    fill: #EB2D08;
+}
+
+
+/* jitter and latency colors */
+.sched-graph .jitter-bar,
+.sched-graph .jitter-area {
+    fill: #D6F6FF;
+}
+
+.sched-graph .jitter-bar,
+.sched-graph .jitter-line,
+.sched-graph .jitter-circle {
+    stroke: #0F3A78;
+}
+
+.sched-graph .jitter-axis .axis-label {
+    fill: #0F3A78;
+}
+
+
+/* latency colors */
+.sched-graph .latency-bar,
+.sched-graph .latency-area {
+    fill: #86ffe6;
+}
+
+.sched-graph .latency-bar,
+.sched-graph .latency-line,
+.sched-graph .latency-circle {
+    stroke: #0f6f78;
+}
+
+.sched-graph .latency-axis .axis-label {
+    fill: #0f6f78;
+}
+
+/* MOS colors */
+.sched-graph .mos-bar,
+.sched-graph .mos-area {
+    fill: lightgoldenrodyellow;
+}
+
+.sched-graph .mos-bar,
+.sched-graph .mos-line,
+.sched-graph .mos-circle {
+    stroke: goldenrod;
+}
+
+.sched-graph .mos-axis .axis-label {
+    fill: goldenrod;
+}
+
+
+/* -- Tooltip styling --*/
+
+.d3-tip {
+    line-height: 16px;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+	z-index: 1080;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+.tip-label {
+	color: #dddddd;
+}
+
+.tip-entry {
+	font-weight: bold;
+}
+
+.tip-heading {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+
+/* - - - alert lane graph styles - - - */
+
+.band-rect.success {
+    fill: #2FB52C;
+}
+
+.band-rect.warning {
+    fill: #FF9000;
+}
+
+.band-rect.fail {
+    fill: #EB2D08;
+}
+
+.band-rect.unknown {
+    fill: #eeeeee;
+}
+
+.rect-bar.alert-count {
+    fill: #FFE2DD;
+    stroke: #EB2D08;
+}

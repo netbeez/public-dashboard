@@ -1,0 +1,106 @@
+/* styles for network status dashboard */
+
+.main-header {
+    box-shadow: 0 2px 6px 0 rgba(0,0,0, 0.4);
+    display: block;
+    width: 100%;
+    padding: 20px 0;
+    background-color: #ffffff;
+    z-index: 1;
+    font-size: 0;
+}
+
+.header-wrap,
+.main {
+    max-width: 1140px;
+    min-width: 960px;
+    margin: 0 auto;
+}
+
+.header-wrap {
+    padding: 12px 24px;
+}
+
+.main {
+    padding: 36px;
+}
+
+.site-footer {
+    color: #aeaeae;
+    padding: 20px 40px;
+}
+
+.site-footer .footer-statement {
+    font-style: italic;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.panel-section {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.header-content {
+    width: 33.3%;
+    min-width: 200px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+    position: relative;
+    padding: 0 12px;
+}
+
+.header-content.three-col-x2 {
+    width: 66.6%;
+}
+
+.description {
+    font-style: italic;
+    color: #999999;
+}
+
+.title-container {
+    margin-left: 60px;
+}
+
+.home-icon-container {
+    position: absolute;
+    top: 25%;
+}
+
+.desc-highlight {
+    font-weight: bold;
+}
+
+.description .desc-highlight {
+    color: #747474;
+}
+
+.desc-highlight.success {
+    color: #2FB52C;
+}
+
+.desc-highlight.warning {
+    color: #ff9900;
+}
+
+.desc-highlight.fail {
+    color: #EB2D08;
+}
+
+.simple-label {
+    display: inline-block;
+    min-width: 90px;
+}
+
+#loading {
+    color: #0F60FF;
+}
+
+.sort-th:hover {
+    cursor: ns-resize;
+    background-color: #e5e5e5;
+}
