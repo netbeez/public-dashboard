@@ -64,7 +64,7 @@ If you encounter cURL certificate errors, you may need to have both of these opt
 
 ## Fork and Customize!
 
-We’re releasing this dashboard with basic information and styling.  Feel free to fork it and customize it to match your own styling and branding.  We also encourage you add new data points - this dashboard (as of yet) only utilizes a fraction of the available endpoints in the API. You can find more documentation and more information on your instance's end-point at https://<YOUR_NETBEEZ_HOSTNAME>/swagger/
+We’re releasing this dashboard with basic information and styling.  Feel free to fork it and customize it to match your own styling and branding.  We also encourage you add new data points - this dashboard (as of yet) only utilizes a fraction of the available endpoints in the API. You can find more documentation and more information on your instance's end-point at https://< YOUR_NETBEEZ_HOSTNAME >/swagger/
 
 
 ## Contributors
