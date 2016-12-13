@@ -6,7 +6,7 @@ The dashboard displays current status and open alerts for agents and targets, av
 
 ## Requirements
 
-* An operational NetBeez instance (Enterprise edition)
+* An operational NetBeez instance
 * PHP 5.6 and Apache 2.4.7
 * cURL Library enabled
 
