@@ -1,4 +1,4 @@
-# public-dashboard# NetBeez Network Status Dashboard
+# NetBeez Network Status Dashboard
 
 Welcome to the NetBeez Network Status Dashboard!  This public dashboard enables you to share select NetBeez monitoring data with colleagues or customers without having to generate separate reports or create additional NetBeez user accounts.
 
