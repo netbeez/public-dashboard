@@ -2,7 +2,7 @@
 
 Welcome to the NetBeez Network Status Dashboard!  This public dashboard enables you to share select NetBeez monitoring data with colleagues or customers without having to generate separate reports or create additional NetBeez user accounts.
 
-The dashboard displays current status and open alerts for agents and targets, availability and speed test data for agents, and HTTP response time data for targets.  It is a self-contained PHP site that utilizes our new [public API](link) and D3 data visualizations.
+The dashboard displays current status and open alerts for agents and targets, availability and speed test data for agents, and HTTP response time data for targets.  It is a self-contained PHP site that utilizes our new public API and D3 data visualizations.
 
 ## Requirements
 
