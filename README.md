@@ -14,7 +14,7 @@ The dashboard displays current status and open alerts for agents and targets, av
 
 1. Make sure PHP and Apache are running on your server and that the cURL library extension for PHP is enabled.
 2. Download and unzip the public-dashboard repository [link].  
-3. Go to your NetBeez instance, open Settings > API Keys and generate a new API key (if you have not done so already) [link to zendesk documentation].
+3. Go to your NetBeez instance, open Settings > API Keys and generate a new API key (if you have not done so already). [Here's more info on API keys](https://netbeez.zendesk.com/hc/en-us/articles/217532786-Settings-API-Keys).
 4. Open `config.php` and enter your information:
   * Replace the corny defaults with your real company/organization name and description (these appear on the main page):
    ```php
