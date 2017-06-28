@@ -83,7 +83,7 @@
 			//prepare to make the request
 			$url = self::build_url($url_array, $queries_hash);
             
-            return get_request_with_full_url($url);
+            return self::get_request_with_full_url($url);
 		}
 		
 		//present in many but not all endpoints, protected for easy but optional exposure
@@ -183,7 +183,7 @@
             // URL: <host>/nb_targets/names.json?            
             $full_url = API_HOST . "/" . "nb_targets/names.json?nb_target_ids";
         
-            $reponse = get_request_with_full_url($full_url);
+            $response = Api_Access::get_request_with_full_url($full_url);
                 
             return $response;
         }
