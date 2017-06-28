@@ -53,11 +53,9 @@
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		// PROTECTED FUNCTIONS >>>>>>>>>>>>>>>>>>>>
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		//actually does the api request and returns the result
-		protected static function make_get_request($url_array, $queries_hash = array()){
-			//prepare to make the request
-			$url = self::build_url($url_array, $queries_hash);
-
+        
+        // push the request
+		protected static function get_request($url){
 			//make the request
 			$ch = curl_init(); 	//open curl
 				curl_setopt($ch, CURLOPT_URL, $url); 								// Set so curl_exec returns the result rather than outputs it.
@@ -77,6 +75,15 @@
 			curl_close($ch); 	//close curl
 
 			return $response;
+		}
+        
+        
+		//builds the full url and pushes the request
+		protected static function make_get_request($url_array, $queries_hash = array()){
+			//prepare to make the request
+			$url = self::build_url($url_array, $queries_hash);
+            
+            return get_request($url);
 		}
 		
 		//present in many but not all endpoints, protected for easy but optional exposure
