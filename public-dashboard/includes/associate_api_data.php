@@ -74,8 +74,16 @@ class Process_Data {
             if(!empty($sched_results)){
                 $sched_results = $sched_results[0]->{'result_values'};
 
-                $download_speed = round($sched_results[0]->{'value'}, 2);
-                $upload_speed = round($sched_results[2]->{'value'}, 2);
+                foreach($sched_results as $sched_result){
+                    if($sched_result->{'key'} == 'down'){
+                        $download_speed = round($sched_result->{'value'}, 2);
+                    }
+
+                    if($sched_result->{'key'} == 'up'){
+                        $upload_speed = round($sched_result->{'value'}, 2);
+                    }
+                }
+                
             } else {
                 $download_speed = 0;
                 $upload_speed = 0;
