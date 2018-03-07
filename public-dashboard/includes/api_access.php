@@ -53,9 +53,11 @@
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		// PROTECTED FUNCTIONS >>>>>>>>>>>>>>>>>>>>
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        
-        // push the request
-		protected static function get_request_with_full_url($url){
+		//actually does the api request and returns the result
+		protected static function make_get_request($url_array, $queries_hash = array()){
+			//prepare to make the request
+			$url = self::build_url($url_array, $queries_hash);
+
 			//make the request
 			$ch = curl_init(); 	//open curl
 				curl_setopt($ch, CURLOPT_URL, $url); 								// Set so curl_exec returns the result rather than outputs it.
@@ -75,15 +77,6 @@
 			curl_close($ch); 	//close curl
 
 			return $response;
-		}
-        
-        
-		//builds the full url and pushes the request
-		protected static function make_get_request($url_array, $queries_hash = array()){
-			//prepare to make the request
-			$url = self::build_url($url_array, $queries_hash);
-            
-            return self::get_request_with_full_url($url);
 		}
 		
 		//present in many but not all endpoints, protected for easy but optional exposure
@@ -178,13 +171,11 @@
 	class Nb_Targets extends Api_Access {
 		// URL: <host>/nb_targets(.*).json
 
-
         public static function names(){
-            // URL: <host>/nb_targets/names.json?            
-            $full_url = API_HOST . "/" . "nb_targets/names.json?nb_target_ids";
-        
-            $response = Api_Access::get_request_with_full_url($full_url);
-                
+            // URL: <host>/nb_targets/names.json?
+            $endpoint = __FUNCTION__;					//endpoint name from function
+            $url = array($endpoint);  				    //the host and namespace (class name) is automatic
+            $response = parent::make_get_request($url); //make request
             return $response;
         }
 
