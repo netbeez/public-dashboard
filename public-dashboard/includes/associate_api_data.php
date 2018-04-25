@@ -204,7 +204,7 @@ class Process_Data {
         Process_Data::populate_agent_bandwidths($from, $to);
         Process_Data::populate_agent_alert_counts();
 
-        return json_encode(array_values(Process_Data::$agent_table_object));
+        return json_encode(array_values(Process_Data::$agent_table_object), JSON_HEX_APOS);
     }
 
 
@@ -233,7 +233,7 @@ class Process_Data {
         Process_Data::populate_target_alert_counts_and_status();
         Process_Data::populate_target_response_times($from, $to, $time_window/60000);
 
-        return json_encode(array_values(Process_Data::$target_table_object));
+        return json_encode(array_values(Process_Data::$target_table_object), JSON_HEX_APOS);
     }
 
 
@@ -275,7 +275,7 @@ class Process_Data {
             array_push($agent_data_object, $test_run);
         }
 
-        return json_encode($agent_data_object);
+        return json_encode($agent_data_object, JSON_HEX_APOS);
     }
 
 
@@ -309,7 +309,7 @@ class Process_Data {
             array_push($response_time_array, $response_time_ts);
         }
 
-        return json_encode($response_time_array);
+        return json_encode($response_time_array, JSON_HEX_APOS);
     }
 
     public static function build_target_bar_graph_data_object($time_window, $target_id){
@@ -336,7 +336,7 @@ class Process_Data {
             array_push($per_agent_http_data_array, $per_agent_entry);
         }
 
-        return json_encode($per_agent_http_data_array);
+        return json_encode($per_agent_http_data_array, JSON_HEX_APOS);
     }
 
 
@@ -404,7 +404,7 @@ class Process_Data {
             array_push($agent_alert_data_object, $count_interval);
         }
 
-        return json_encode($agent_alert_data_object);
+        return json_encode($agent_alert_data_object, JSON_HEX_APOS);
     }
 
 
@@ -467,6 +467,6 @@ class Process_Data {
             array_push($target_alert_data_object, $count_interval);
         }
 
-        return json_encode($target_alert_data_object);
+        return json_encode($target_alert_data_object, JSON_HEX_APOS);
     }
 }
