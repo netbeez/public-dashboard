@@ -6,7 +6,7 @@ The dashboard displays current status and open alerts for agents and targets, av
 
 ## Requirements
 
-* An operational NetBeez instance (If you don't have one, get it free at [https://netbeez.net/free-instance-signup/](https://netbeez.net/free-instance-signup/))
+* An operational NetBeez instance (If you don't have one, please inquire at [https://resources.netbeez.net/get-started/schedule-a-demo](https://resources.netbeez.net/get-started/schedule-a-demo))
 * PHP 5.6 and Apache 2.4.7
 * cURL Library enabled
 
@@ -15,7 +15,8 @@ The dashboard displays current status and open alerts for agents and targets, av
 1. Make sure PHP and Apache are running on your server and that the cURL library extension for PHP is enabled.
 2. Download and unzip the public-dashboard repository.  
 3. Go to your NetBeez instance, open Settings > API Keys and generate a new API key (if you have not done so already). [Here's more info on API keys](https://netbeez.zendesk.com/hc/en-us/articles/217532786-Settings-API-Keys).
-4. Open `config.php` and enter your information:
+4. Copy `config.sample.php` to `config.php`.
+5. Open `config.php` and enter your information:
   * Replace the corny defaults with your real company/organization name and description (these appear on the main page):
    ```php
 //Company/organization name (used for the site title)
@@ -34,7 +35,7 @@ define("SITE_URL", "/");
 
    ```php
 //The host address of the NetBeez API (this is usually your NB dashboard's hostname)
-define("API_HOST", "<YOUR_NETBEEZ_HOSTNAME>");
+define("API_HOST", "https://<YOUR_NETBEEZ_SERVER_HOSTNAME>");
 
 //The NetBeez API version
 define("API_VERSION", "v1");
