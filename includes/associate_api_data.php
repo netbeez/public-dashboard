@@ -71,22 +71,23 @@ class Process_Data {
             $sched_results = json_decode(Scheduled_Nb_Test_Results::index($from, $to, $id, 7, 1));
             $sched_results = $sched_results->{'nb_test_results'};
 
+            $download_speed = 0;
+            $upload_speed = 0;
+
             if(!empty($sched_results)){
-                $sched_results = $sched_results[0]->{'result_values'};
+                $all_values = array();
+                foreach($sched_results as $sched_res) {
+                    $all_values = array_merge($all_values, $sched_res->{'result_values'});
+                }
 
-                foreach($sched_results as $sched_result){
-                    if($sched_result->{'key'} == 'down'){
-                        $download_speed = round($sched_result->{'value'}, 2);
+                foreach($all_values as $result_value) {
+                    if($result_value->{'key'} == 'down') {
+                        $download_speed = round($result_value->{'value'}, 2);
                     }
-
-                    if($sched_result->{'key'} == 'up'){
-                        $upload_speed = round($sched_result->{'value'}, 2);
+                    if($sched_result->{'key'} == 'up') {
+                        $upload_speed = round($result_value->{'value'}, 2);
                     }
                 }
-                
-            } else {
-                $download_speed = 0;
-                $upload_speed = 0;
             }
 
             Process_Data::$agent_table_object[$id]['download_speed'] = $download_speed;
