@@ -18,7 +18,7 @@ define("SITE_DESCRIPTION", "This description is declared in the config file!");
 define("SITE_URL", "/");
 
 //The host address of the NetBeez API (this is usually your NB dashboard's hostname)
-define("API_HOST", "<YOUR_NETBEEZ_HOSTNAME>");
+define("API_HOST", "https://<YOUR_NETBEEZ_SERVER_HOSTNAME>");
 
 //The NetBeez API version
 define("API_VERSION", "v1");
@@ -33,3 +33,4 @@ define("SSL_VERIFY_HOST", true);
 //Default is false due to issue with certificate configuration on internal NetBeez instances
 define("SSL_VERIFY_PEER", false);
 
+?>
