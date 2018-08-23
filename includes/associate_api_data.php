@@ -84,7 +84,7 @@ class Process_Data {
                     if($result_value->{'key'} == 'down') {
                         $download_speed = round($result_value->{'value'}, 2);
                     }
-                    if($sched_result->{'key'} == 'up') {
+                    if($result_value->{'key'} == 'up') {
                         $upload_speed = round($result_value->{'value'}, 2);
                     }
                 }
