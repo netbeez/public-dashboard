@@ -22,7 +22,7 @@ function TargetSortTable(dataObj) {
     d3.selectAll("thead#target-sort-thead th.sort-th").data(values).on("click", function(key) {
         toggle = toggle * -1;
         tr.sort(function(a, b) {
-            return toggle * (a[key] - b[key]);
+            return toggle * (a[key] < b[key]? -1 : 1);
         });
     });
 
