@@ -98,7 +98,7 @@ function query_current_page_object(){
 function get_page_title($current_item){
     parse_str($_SERVER['QUERY_STRING'], $query_string);
 
-    if ($query_string['view'] == 'view_agent' || $query_string['view'] == 'view_target'){
+    if ($query_string && ($query_string['view'] == 'view_agent' || $query_string['view'] == 'view_target')){
         return $current_item;
     } else {
         return COMPANY_NAME . ' Network Status';
@@ -168,6 +168,7 @@ function get_graphs($view){
     if($view == 'view_agent'){ ?>
         <script type="text/javascript" src="js/SingleAreaPlot.js"></script>
         <script type="text/javascript" src="js/UpDownPlot.js"></script>
+        <script type="text/javascript" src="js/SignalLinkQualityPlot.js"></script>
         <script type="text/javascript" src="js/AlertLaneGraph.js"></script>
 
         <script type="text/javascript">
@@ -175,10 +176,23 @@ function get_graphs($view){
 
                 var agentGraphObj = '<?php echo Process_Data::build_agent_graphs_data_object($selected_time_window, $query_string['id']); ?>';
                 var alertGraphObj = '<?php echo Process_Data::build_agent_swimlane_data($selected_time_window, $query_string['id'], $data_obj->{'nb_targets'}); ?>';
+                var agentAccessPointMetricsObj = '<?php echo Process_Data::build_agent_access_point_metrics_data_object($selected_time_window, $query_string['id']); ?>';
 
                 var latencyPlot = new SingleAreaGraph($("#latency-graph-container"), $("#latency-graph-container").width(), agentGraphObj, {label:"Latency", unit: "ms", variable_accessor: "latency", class: "latency"}, <?php echo $selected_time_window; ?>);
-                var UpDownPlot = new UpDownAreaGraph($("#up-down-graph-container"), $("#up-down-graph-container").width(), agentGraphObj, <?php echo $selected_time_window; ?>);
+                var upDownPlot = new UpDownAreaGraph($("#up-down-graph-container"), $("#up-down-graph-container").width(), agentGraphObj, <?php echo $selected_time_window; ?>);
+                if(agentAccessPointMetricsObj.length > 0) {
+                    $(".main").append(`
+                        <div class="panel-section">
+                            <div class="section-header">
+                                <h4>Signal Strength and Link Quality over the past <span class="desc-highlight"><?php echo get_time_interval_label(); ?></span></h4>
+                            </div>
+                            <div id="signal-link-quality-graph-container"></div>
+                        </div>
+                    `);
+                    var signalLinkQualityPlot = new SignalLinkQualityPlot($("#signal-link-quality-graph-container"), $("#signal-link-quality-graph-container").width(), agentAccessPointMetricsObj, <?php echo $selected_time_window; ?>);
+                }
                 AlertLaneGraph($("#alert-graph-container"), $("#alert-graph-container").width(), alertGraphObj);
+
             });
         </script>
     <?php } else if ($view == 'view_target') { ?>

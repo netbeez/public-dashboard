@@ -30,6 +30,7 @@ include "templates/header.php"; ?>
         </div>
         <div id="latency-graph-container"></div>
     </div>
+
 </div>
 
 <?php include "templates/footer.php"; ?>

@@ -279,6 +279,42 @@ class Process_Data {
         return json_encode($agent_data_object, JSON_HEX_APOS);
     }
 
+    public static function build_agent_access_point_metrics_data_object($time_window, $agent_id){
+
+        $current_time = new DateTime();
+        $to = $current_time->getTimestamp() * 1000;
+        $from = $to - $time_window;
+
+        $metric_data = json_decode(Access_Point_Metrics::sample($from, $to, $agent_id));
+        $metric_data = $metric_data->{'metrics'};
+
+        $metric_data_object = array();
+
+        for($i = 0; $i < count($metric_data); $i++){
+
+            if(!empty($metric_data)){
+                $signal_level = $metric_data[$i]->{'signal_level'};
+                $link_quality = $metric_data[$i]->{'link_quality'} * 100;
+                $bit_rate = $metric_data[$i]->{'bit_rate'};
+            } else {
+                $signal_level = 0;
+                $link_quality = 0;
+                $bit_rate = 0;
+            }
+
+            $data_point = array(
+                "ts" => $metric_data[$i]->{'timestamp'},
+                "signal_level" => $signal_level,
+                "link_quality" => $link_quality,
+                "bit_rate" => $bit_rate
+            );
+
+            array_push($metric_data_object, $data_point);
+        }
+
+        return json_encode($metric_data_object, JSON_HEX_APOS);
+    }
+
 
     public static function build_target_line_graph_data_object($time_window, $target_id){
 

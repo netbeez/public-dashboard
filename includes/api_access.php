@@ -154,14 +154,13 @@
         }
 
         public static function availabilities($from, $to, $window_size){
-            // URL: <host>/agents/access_point_events.json?
+            // URL: <host>/agents/availabilities.json?
             $endpoint = __FUNCTION__;					//endpoint name from function
             $queries_hash = array('from' => $from, 'to' => $to, 'window_size' => $window_size);
             $url = array($endpoint); 					//the host and namespace (class name) is automatic
             $response = parent::make_get_request($url, $queries_hash); //make request
             return $response;
         }
-		
 	}
 	
 	
@@ -183,6 +182,34 @@
 			// URL: <host>/nb_targets/ids.json?
 			return parent::ids();
 		}
+	}
+
+    // ******************************************************************
+	// ACCESS_POINT_METRICS
+	// ******************************************************************
+	class Access_Point_Metrics extends Api_Access {
+	    // URL: <host>/access_point_metrics(.*).json
+
+        public static function index($from, $to, $agent_id){
+            // URL: <host>/<base_class>.json
+            // create the URL array
+            // the host and namespace (agents) is automatic
+            $queries_hash = array('from' => $from, 'to' => $to, 'agent_id' => $agent_id);
+            $url = array();
+            $response = self::make_get_request($url, $queries_hash); //make the request
+            return $response;
+        }
+
+        public static function sample($from, $to, $agent_id, $cardinality=100){
+            // URL: <host>/nb_alerts/open_alerts_at_intervals.json?
+            $endpoint = __FUNCTION__;					//endpoint name from function
+            $url = array($endpoint); 					//the host and namespace (class name) is automatic
+            $queries_hash = array('from' => $from, 'to' => $to, 'agent_id' => $agent_id, 'cardinality' => $cardinality);
+
+            $response = parent::make_get_request($url, $queries_hash); //make request
+            return $response;
+        }
+
 	}
 	
 	
