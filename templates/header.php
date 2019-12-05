@@ -12,6 +12,8 @@
     <meta charset="UTF-8">
     <title>Network Status Dashboard - <?php echo get_page_title($name); ?></title>
 
+    <meta http-equiv="refresh" content="<?php echo get_refresh_interval(false, true); ?>">
+
     <link type="text/css" href="styles/font-awesome.min.css" rel="stylesheet" />
     <link type="text/css" href="styles/fonts.css" rel="stylesheet" />
     <link type="text/css" href="styles/base.css" rel="stylesheet" />

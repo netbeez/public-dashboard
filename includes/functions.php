@@ -218,6 +218,7 @@ function get_graphs($view){
 
         <script type="text/javascript">
             $( document ).ready(function() {
+                <?php Process_Data::initialize_settings(); ?>
                 var agentTableObj = '<?php echo Process_Data::build_agent_table_data($selected_time_window); ?>';
                 var targetTableObj = '<?php echo Process_Data::build_target_table_data($selected_time_window); ?>';
                 AgentSortTable(agentTableObj);
@@ -225,4 +226,27 @@ function get_graphs($view){
             });
         </script>
     <?php }
+}
+
+function display_admin_footer_scripts(){
+    ?>
+        <script type="text/javascript" src="js/settings-form-handler.js"></script>
+    <?php
+}    
+
+function get_refresh_interval($is_admin_page, $is_in_seconds){
+
+    $directory = '';
+    if(!$is_admin_page){
+        $directory = 'admin/';
+    }
+
+    $settings_data = file_get_contents($directory . 'settings.json');
+    $refresh_interval_in_minutes = json_decode($settings_data)->{'refresh_interval'};
+
+    if($is_in_seconds){
+        return $refresh_interval_in_minutes * 60;
+    } else {
+        return $refresh_interval_in_minutes;
+    }
 }

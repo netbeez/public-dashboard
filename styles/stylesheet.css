@@ -1,0 +1,81 @@
+/**
+ * Main Stylesheet
+ */
+
+/* main index */
+
+#main {
+    margin: 36px;
+}
+
+#admin-main {
+    margin: 12px auto;
+    max-width: 960px;
+}
+
+.dashboard-header {
+    border-bottom: 1px solid #cccccc;
+    padding: 24px 36px;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0, 0.4);
+}
+
+.header-logo, .header-title {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.site-footer {
+    color: #aeaeae;
+    padding: 20px 40px;
+}
+
+.site-footer .footer-statement {
+    font-style: italic;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#outer-container {
+    margin-bottom: 36px;
+}
+
+/* admin index */
+
+.form-section {
+    width: 100%;
+    border: 1px solid #dddddd;
+    margin-bottom: 18px;
+}
+
+.form-section-header {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #dddddd;
+    padding: 8px;
+}
+
+.form-section-header h6 {
+    margin-bottom: 0;
+}
+
+.form-section-header .description {
+    color: #999999;
+    font-style: italic;
+}
+
+.form-section-body {
+    padding: 8px;
+}
+
+.form-section-body.selection-module-container {
+    padding: 0;
+}
+
+.three-col,
+.section-content.three-col {
+    width: 33.33%;
+}
+
+.three-col-x2, .section-content.three-col-x2 {
+    width: 66.66%;
+}
