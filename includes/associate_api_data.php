@@ -14,14 +14,22 @@ class Process_Data {
     public static $target_table_object = null;
     public static $target_ids = null;
 
-    public static function initialize_settings(){
-        $settings_data_encoded = file_get_contents('admin/settings.json');
+    public static function initialize_settings($settings_file, $empty){
+        $settings_data_encoded = file_get_contents($settings_file);
         Process_Data::$settings_data = json_decode($settings_data_encoded);
 
-        Process_Data::$agent_ids = Process_Data::$settings_data->{'selected_agents'};
+        if($empty) {
+            Process_Data::$agent_ids = array();
+        } else {
+            Process_Data::$agent_ids = Process_Data::$settings_data->{'selected_agents'};
+        }
         # Process_Data::$agent_ids_under_maintenance = Process_Data::$settings_data->{'agents_under_maintenance'};
-
-        Process_Data::$target_ids = Process_Data::$settings_data->{'selected_targets'};
+        
+        if($empty) {
+            Process_Data::$target_ids = array();
+        } else {
+            Process_Data::$target_ids = Process_Data::$settings_data->{'selected_targets'};
+        }
         # Process_Data::$target_ids_under_maintenance = Process_Data::$settings_data->{'targets_under_maintenance'};
     }
 

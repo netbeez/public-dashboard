@@ -4,11 +4,14 @@
  */
 
 require("../config.php");
+require("../includes/associate_api_data.php");
 require("../includes/api_access.php");
 require("../includes/functions.php");
 require("modules/selection-module.php");
 
 include('templates/header.php');
+
+Process_Data::initialize_settings('settings.json',true);
 
 $agent_selection_module = new Selection_Module("agent");
 $target_selection_module = new Selection_Module("target");

@@ -118,7 +118,7 @@ abstract class Api_Access {
 }
 	
 function cr_post($a,$b=0,$c=0){
-	if (!is_array($a)) return false;
+	if (!is_array($a) || sizeof($a) == 0) return false;
 	foreach ((array)$a as $k=>$v){
 			if (!isset($v)) continue;
 			if ($c) $k=$b."[]"; elseif (is_int($k)) $k=$b.$k;

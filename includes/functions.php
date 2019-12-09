@@ -218,7 +218,7 @@ function get_graphs($view){
 
         <script type="text/javascript">
             $( document ).ready(function() {
-                <?php Process_Data::initialize_settings(); ?>
+                <?php Process_Data::initialize_settings('admin/settings.json',false); ?>
                 var agentTableObj = '<?php echo Process_Data::build_agent_table_data($selected_time_window); ?>';
                 var targetTableObj = '<?php echo Process_Data::build_target_table_data($selected_time_window); ?>';
                 AgentSortTable(agentTableObj);
