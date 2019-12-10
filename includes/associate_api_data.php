@@ -4,6 +4,7 @@
  */
 
 class Process_Data {
+    public static $settings_data = null;
 
     //Data object variables for populating the Agent table
     public static $agent_table_object = null;
@@ -13,6 +14,24 @@ class Process_Data {
     public static $target_table_object = null;
     public static $target_ids = null;
 
+    public static function initialize_settings($settings_file, $empty){
+        $settings_data_encoded = file_get_contents($settings_file);
+        Process_Data::$settings_data = json_decode($settings_data_encoded);
+
+        if($empty) {
+            Process_Data::$agent_ids = array();
+        } else {
+            Process_Data::$agent_ids = Process_Data::$settings_data->{'selected_agents'};
+        }
+        # Process_Data::$agent_ids_under_maintenance = Process_Data::$settings_data->{'agents_under_maintenance'};
+        
+        if($empty) {
+            Process_Data::$target_ids = array();
+        } else {
+            Process_Data::$target_ids = Process_Data::$settings_data->{'selected_targets'};
+        }
+        # Process_Data::$target_ids_under_maintenance = Process_Data::$settings_data->{'targets_under_maintenance'};
+    }
 
     /* - - - - Functions for Accessing Data by ID - - - - */
 
@@ -60,7 +79,9 @@ class Process_Data {
         $agent_status_data = json_decode(Agents::statuses());
 
         foreach($agent_status_data as $id=>$agent_status) {
-            Process_Data::$agent_table_object[$id]['status'] = $agent_status;
+            if(!empty(Process_Data::$agent_table_object[$id])) {
+                Process_Data::$agent_table_object[$id]['status'] = $agent_status;
+            }
         }
     }
 
@@ -120,7 +141,7 @@ class Process_Data {
 
     //Populates Target names in the Target table object
     public static function populate_target_names(){
-        $target_names = json_decode(Nb_Targets::names());
+        $target_names = json_decode(Nb_Targets::names(Process_Data::$target_ids));
 
         foreach($target_names as $id=>$name) {
             Process_Data::$target_table_object[$id]['target_name'] = $name;
@@ -184,8 +205,10 @@ class Process_Data {
         $to = $current_time->getTimestamp() * 1000;
         $from = $to - $time_window;
 
-        $json = json_decode(Agents::ids());
-        Process_Data::$agent_ids = $json->{'ids'};
+        if(sizeof(Process_Data::$agent_ids) == 0) {
+            $json = json_decode(Agents::ids());
+            Process_Data::$agent_ids = $json->{'ids'};
+        }
 
         Process_Data::$agent_table_object = array_fill_keys(Process_Data::$agent_ids, array(
             "agent_id" => 0,
@@ -216,10 +239,12 @@ class Process_Data {
         $to = $current_time->getTimestamp() * 1000;
         $from = $to - $time_window;
 
-        $target_ids = json_decode(Nb_Targets::ids());
-        $target_ids = $target_ids->{'targetIds'};
+        if(sizeof(Process_Data::$target_ids) ==0) {
+            $target_ids = json_decode(Nb_Targets::ids());
+            $target_ids = $target_ids->{'targetIds'};
 
-        Process_Data::$target_ids = $target_ids;
+            Process_Data::$target_ids = $target_ids;
+        }
 
         Process_Data::$target_table_object = array_fill_keys(Process_Data::$target_ids, array(
             "target_id" => 0,
