@@ -62,6 +62,11 @@ define("SSL_VERIFY_PEER", false);
 ```
 If you encounter cURL certificate errors, you may need to have both of these options set to false.  This is a certificate issue in internally hosted NetBeez instances that prevents access to the endpoint data. If your server/certificate configuration allows, we recommend setting `SSL_VERIFY_PEER` to true, as this is more secure.
 
+## Admin Panel
+You can access the admin panel using the `/admin` relative url. This page allows you to select which agents and which targets you want displayed on your public dashboard. You'll have to secure this page by yourself depending on the type of server you are using (e.g. for Apache you'd use `.htaccess` or something similar).
+
+Here is a screenshot:
+![Admin Panel](admin_panel.png)
 
 ## Fork and Customize!
 
