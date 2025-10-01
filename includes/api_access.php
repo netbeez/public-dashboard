@@ -107,7 +107,7 @@ abstract class Api_Access {
 	}
 	
 	//all endpoints have this
-	public static function index(){
+	public static function index(...$args){
 		// URL: <host>/<base_class>s.json
 		// create the URL array
 		// the host and namespace (agents) is automatic
