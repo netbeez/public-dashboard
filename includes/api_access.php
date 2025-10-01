@@ -205,8 +205,10 @@ function cr_post($a,$b=0,$c=0){
 	class Access_Point_Metrics extends Api_Access {
 	    // URL: <host>/access_point_metrics(.*).json
 
-        public static function index($from, $to, $agent_id){
+        public static function index(...$args){
             // URL: <host>/<base_class>.json
+            // Extract parameters: $from, $to, $agent_id
+            list($from, $to, $agent_id) = $args;
             // create the URL array
             // the host and namespace (agents) is automatic
             $queries_hash = array('from' => $from, 'to' => $to, 'agent_id' => $agent_id);
@@ -263,8 +265,10 @@ function cr_post($a,$b=0,$c=0){
 		// URL: <host>/scheduled_nb_test_results(.*).json
 		// only index and show (inherited)
 
-        public static function index($from, $to, $agent_id, $test_type_id, $group_all_results){
+        public static function index(...$args){
             // URL: <host>/<base_class>.json
+            // Extract parameters: $from, $to, $agent_id, $test_type_id, $group_all_results
+            list($from, $to, $agent_id, $test_type_id, $group_all_results) = $args;
             // create the URL array
             // the host and namespace (agents) is automatic
             $queries_hash = array('from' => $from, 'to' => $to, 'agent_id' => $agent_id, 'test_type_id' => $test_type_id, 'group_all_results' => $group_all_results);
@@ -281,8 +285,10 @@ function cr_post($a,$b=0,$c=0){
         // URL: <host>/nb_test_statistics(.*).json
         // only index and show (inherited)
 
-        public static function index($from, $to, $nb_target_id, $test_type_id, $window_size, $grouping){
+        public static function index(...$args){
             // URL: <host>/<base_class>s.json
+            // Extract parameters: $from, $to, $nb_target_id, $test_type_id, $window_size, $grouping
+            list($from, $to, $nb_target_id, $test_type_id, $window_size, $grouping) = $args;
             // create the URL array
             // the host and namespace (agents) is automatic
             $url = array();
