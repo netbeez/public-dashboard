@@ -28,6 +28,9 @@ switch ( $view ) {
     case 'view_target':
         show_target();
         break;
+    case 'debug':
+        show_debug();
+        break;
     default:
         show_main_page();
 }
@@ -70,4 +73,14 @@ function show_target(){
     $name = $data_obj->{'name'};
     $description = $data_obj->{'description'};
     include "templates/target_template.php";
+}
+
+function show_debug(){
+    global $view;
+    global $selected_time_window;
+    global $name;
+    global $description;
+    $name = COMPANY_NAME . ' Debug';
+    $description = 'Request timing profile for the current dashboard request.';
+    include "templates/debug_template.php";
 }

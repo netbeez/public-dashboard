@@ -6,6 +6,89 @@
  * Time: 5:17 PM
  */
 
+if (!isset($GLOBALS['nb_request_profiler']) || !is_array($GLOBALS['nb_request_profiler'])) {
+    $GLOBALS['nb_request_profiler'] = array();
+}
+
+function nb_profiler_record($layer, $url, $durationMs, $httpCode = null, $meta = array()){
+    if (!is_array($GLOBALS['nb_request_profiler'])) {
+        $GLOBALS['nb_request_profiler'] = array();
+    }
+
+    $GLOBALS['nb_request_profiler'][] = array(
+        'layer' => (string) $layer,
+        'url' => (string) $url,
+        'duration_ms' => round((float) $durationMs, 2),
+        'http_code' => $httpCode,
+        'meta' => is_array($meta) ? $meta : array(),
+    );
+}
+
+function nb_profiler_entries(){
+    return is_array($GLOBALS['nb_request_profiler']) ? $GLOBALS['nb_request_profiler'] : array();
+}
+
+function nb_profiler_summary(){
+    $entries = nb_profiler_entries();
+    $total = 0.0;
+
+    foreach ($entries as $entry) {
+        $total += (float) ($entry['duration_ms'] ?? 0);
+    }
+
+    $sorted = $entries;
+    usort($sorted, function($left, $right){
+        return ((float) ($right['duration_ms'] ?? 0)) <=> ((float) ($left['duration_ms'] ?? 0));
+    });
+
+    return array(
+        'count' => count($entries),
+        'total_ms' => round($total, 2),
+        'slowest' => array_slice($sorted, 0, 20),
+    );
+}
+
+function render_debug_panel($hidden = true){
+    $summary = nb_profiler_summary();
+    $entries = $summary['slowest'];
+    ?>
+    <section id="debug-panel" class="debug-panel"<?php echo $hidden ? ' hidden' : ''; ?>>
+        <div class="debug-panel-header">
+            <div>
+                <p class="section-kicker">Debug</p>
+                <h4>Request timing profile</h4>
+            </div>
+            <div class="debug-summary">
+                <span><strong><?php echo (int) $summary['count']; ?></strong> requests</span>
+                <span><strong><?php echo number_format((float) $summary['total_ms'], 2); ?></strong> ms total</span>
+            </div>
+        </div>
+        <div class="table-shell">
+            <table class="dashboard-table debug-table">
+                <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($entries as $entry): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars((string) ($entry['layer'] ?? 'unknown')); ?></td>
+                        <td><?php echo number_format((float) ($entry['duration_ms'] ?? 0), 2); ?> ms</td>
+                        <td><?php echo htmlspecialchars((string) (($entry['http_code'] ?? '') !== null ? ($entry['http_code'] ?? '') : '')); ?></td>
+                        <td class="debug-url"><?php echo htmlspecialchars((string) ($entry['url'] ?? '')); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <?php
+}
+
 //Handle Time Window & Time Window buttons
 function show_selected_time_window_interval(){
     global $selected_time_window;
@@ -158,6 +241,89 @@ function get_time_interval_label() {
     }
 }
 
+function get_body_class(){
+    parse_str($_SERVER['QUERY_STRING'], $query_string);
+
+    if ($query_string && isset($query_string['view'])) {
+        return 'page-' . preg_replace('/[^a-z0-9_-]+/i', '-', (string) $query_string['view']);
+    }
+
+    return 'page-home';
+}
+
+function format_dashboard_metric($value, $suffix = '', $decimals = 2){
+    if ($value === null || $value === '') {
+        return 'N/A';
+    }
+
+    if (is_numeric($value)) {
+        $formatted = number_format((float) $value, $decimals);
+    } else {
+        $formatted = (string) $value;
+    }
+
+    return $suffix !== '' ? $formatted . ' ' . $suffix : $formatted;
+}
+
+function get_agent_status_meta($status){
+    if ($status === true) {
+        return array('label' => 'Operational', 'class' => 'success');
+    }
+
+    if ($status === false) {
+        return array('label' => 'Unreachable', 'class' => 'fail');
+    }
+
+    return array('label' => 'Unknown', 'class' => 'muted');
+}
+
+function get_target_status_meta($status){
+    if ($status === "0" || $status === 0) {
+        return array('label' => 'Healthy', 'class' => 'success');
+    }
+
+    if ($status === "1" || $status === 1) {
+        return array('label' => 'Warnings', 'class' => 'warning');
+    }
+
+    if ($status === "2" || $status === 2) {
+        return array('label' => 'Failures', 'class' => 'fail');
+    }
+
+    return array('label' => 'Unknown', 'class' => 'muted');
+}
+
+function format_timestamp_ms($timestampMs){
+    $timestampMs = (int) $timestampMs;
+    if ($timestampMs <= 0) {
+        return 'No recent sample';
+    }
+
+    return gmdate('Y-m-d H:i:s', (int) floor($timestampMs / 1000)) . ' UTC';
+}
+
+function normalize_target_agent_ids($agentIds){
+    $result = array();
+
+    if (is_array($agentIds)) {
+        foreach ($agentIds as $agentId) {
+            if (is_numeric($agentId)) {
+                $result[] = (int) $agentId;
+            }
+        }
+    } else if (is_object($agentIds)) {
+        foreach ($agentIds as $agentId) {
+            if (is_numeric($agentId)) {
+                $result[] = (int) $agentId;
+            }
+        }
+    }
+
+    return array_values(array_unique(array_filter($result, function($agentId){
+        return $agentId > 0;
+    })));
+}
+
 
 //Get graphs for current page
 function get_graphs($view){
@@ -206,23 +372,27 @@ function get_graphs($view){
                 var barGraphObj = '<?php echo Process_Data::build_target_bar_graph_data_object($selected_time_window, $query_string['id']); ?>';
                 var targetGraphObj = '<?php echo Process_Data::build_target_line_graph_data_object($selected_time_window, $query_string['id']); ?>';
                 var alertGraphObj = '<?php echo Process_Data::build_target_swimlane_data($selected_time_window, $query_string['id'], $data_obj->{'agent_ids'}); ?>';
+                var parsedBarGraph = JSON.parse(barGraphObj || "[]");
+                var parsedTargetGraph = JSON.parse(targetGraphObj || "[]");
+                var parsedAlertGraph = JSON.parse(alertGraphObj || "[]");
 
-                AlertLaneGraph($("#alert-graph-container"), $("#alert-graph-container").width(), alertGraphObj);
-                var responseTimePlot = new SingleAreaGraph($("#response-time-graph-container"), $("#response-time-graph-container").width(), targetGraphObj, {label:"Response Time", unit: "s", variable_accessor: "response_time", class: "response-time"}, <?php echo $selected_time_window; ?>);
-                var perAgentAveragePlot = new BarGraph($("#agent-bar-graph-container"), $("#agent-bar-graph-container").width(), barGraphObj, {label:"Response Time", unit: "s", variable_accessor: "response_time", class: "response-time"});
-            });
-        </script>
-    <?php } else { ?>
-        <script type="text/javascript" src="js/TargetSortTable.js"></script>
-        <script type="text/javascript" src="js/AgentSortTable.js"></script>
+                if (parsedAlertGraph.length > 0) {
+                    AlertLaneGraph($("#alert-graph-container"), $("#alert-graph-container").width(), alertGraphObj);
+                } else {
+                    $("#alert-graph-container").html('<div class="empty-state">No alert timeline data is available for the selected time window.</div>');
+                }
 
-        <script type="text/javascript">
-            $( document ).ready(function() {
-                <?php Process_Data::initialize_settings('admin/settings.json',false); ?>
-                var agentTableObj = '<?php echo Process_Data::build_agent_table_data($selected_time_window); ?>';
-                var targetTableObj = '<?php echo Process_Data::build_target_table_data($selected_time_window); ?>';
-                AgentSortTable(agentTableObj);
-                TargetSortTable(targetTableObj);
+                if (parsedTargetGraph.length > 0) {
+                    var responseTimePlot = new SingleAreaGraph($("#response-time-graph-container"), $("#response-time-graph-container").width(), targetGraphObj, {label:"Response Time", unit: "s", variable_accessor: "response_time", class: "response-time"}, <?php echo $selected_time_window; ?>);
+                } else {
+                    $("#response-time-graph-container").html('<div class="empty-state">No aggregate HTTP samples were returned for this target in the selected time window.</div>');
+                }
+
+                if (parsedBarGraph.length > 0) {
+                    var perAgentAveragePlot = new BarGraph($("#agent-bar-graph-container"), $("#agent-bar-graph-container").width(), barGraphObj, {label:"Response Time", unit: "s", variable_accessor: "response_time", class: "response-time"});
+                } else {
+                    $("#agent-bar-graph-container").html('<div class="empty-state">No per-location HTTP samples were returned for this target in the selected time window.</div>');
+                }
             });
         </script>
     <?php }

@@ -58,6 +58,7 @@ abstract class Api_Access {
 	protected static function make_get_request($url_array, $queries_hash = array()){
 		//prepare to make the request
 		$url = self::build_url($url_array, $queries_hash);
+        $start_time = microtime(true);
 
 		//make the request
 		$ch = curl_init(); 	//open curl
@@ -70,8 +71,12 @@ abstract class Api_Access {
 							curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
 							curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 			$response = curl_exec($ch);					 						//make the request
+                    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 					$curl_errno = curl_errno($ch);
 					$curl_error = curl_error($ch);
+                    if (function_exists('nb_profiler_record')) {
+                        nb_profiler_record('legacy', $url, (microtime(true) - $start_time) * 1000, $http_code);
+                    }
 					if ($curl_errno > 0) {
 							echo "cURL Error ($curl_errno): $curl_error";
 					}
@@ -119,6 +124,7 @@ abstract class Api_Access {
 	
 function cr_post($a,$b=0,$c=0){
 	if (!is_array($a) || sizeof($a) == 0) return false;
+    $r = array();
 	foreach ((array)$a as $k=>$v){
 			if (!isset($v)) continue;
 			if ($c) $k=$b."[]"; elseif (is_int($k)) $k=$b.$k;
@@ -127,6 +133,9 @@ function cr_post($a,$b=0,$c=0){
 			}
 			$r[]=urlencode($k)."=" .urlencode($v);    
 	}
+    if (sizeof($r) == 0) {
+        return "";
+    }
 	return implode("&",$r);
 }
 
@@ -149,10 +158,10 @@ function cr_post($a,$b=0,$c=0){
             return parent::ids();
         }
 
-        public static function names(){
+        public static function names($agent_ids = null){
             // URL: <host>/agents/names.json?
 						$endpoint = __FUNCTION__;					//endpoint name from function
-						$queries_hash = array('agent_ids' => Process_Data::$agent_ids);
+						$queries_hash = array('agent_ids' => $agent_ids !== null ? $agent_ids : Process_Data::$agent_ids);
             $url = array($endpoint); 					//the host and namespace (class name) is automatic
             $response = parent::make_get_request($url, $queries_hash); //make request
             return $response;
